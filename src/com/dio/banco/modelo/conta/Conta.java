@@ -1,6 +1,7 @@
 package com.dio.banco.modelo.conta;
 
 import com.dio.banco.IConta;
+import com.dio.banco.modelo.Cliente;
 
 public abstract class Conta implements IConta {
     private static final int AGENCIA_PADRAO = 1;
@@ -8,6 +9,7 @@ public abstract class Conta implements IConta {
     protected int agencia;
     protected int numero;
     protected double saldo;
+    protected Cliente cliente;
 
     public int getAgencia() {
         return agencia;
@@ -18,6 +20,9 @@ public abstract class Conta implements IConta {
     public double getSaldo() {
         return saldo;
     }
+    public Cliente getCliente() {
+        return cliente;
+    }
     private void setAgencia(int agencia) {
         this.agencia = agencia;
     }
@@ -27,10 +32,20 @@ public abstract class Conta implements IConta {
     private void setSaldo(double saldo) {
         this.saldo = saldo;
     }
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
-    public Conta(){
+    public Conta(Cliente cliente){
         setAgencia(AGENCIA_PADRAO);
         setNumero(SEQUENCIAL++);
+        setCliente(cliente);
+    }
+
+    public Conta(Cliente cliente, int agencia){
+        setAgencia(agencia);
+        setNumero(SEQUENCIAL++);
+        setCliente(cliente);
     }
 
     @Override
@@ -59,6 +74,7 @@ public abstract class Conta implements IConta {
     }
 
     protected void imprimirInfosComuns(){
+        System.out.printf("Titular: %s%n", getCliente().getNome());
         System.out.printf("Agencia: %d%n", getAgencia());
         System.out.printf("Numero: %d%n", getNumero());
         System.out.printf("Saldo: %.2f%n", getSaldo());
